@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>chmod — Infraestructura de identidad y prevención de fraude</title>
+  <meta name="description" content="Verificación de identidad, onboarding y autenticación en una sola plataforma y una sola integración. Para fintechs y empresas de Latinoamérica.">
+  <meta property="og:title" content="chmod — Sabé con certeza quién es tu usuario">
+  <meta property="og:description" content="KYC, onboarding configurable y MFA biométrico en una sola integración.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    (function () {
+      var d = document.documentElement, L = ['es', 'en', 'pt'], lang;
+      d.classList.add('js');
+      try { lang = new URLSearchParams(location.search).get('lang'); } catch (e) {}
+      if (L.indexOf(lang) < 0) { try { lang = localStorage.getItem('chmod-lang'); } catch (e) {} }
+      if (L.indexOf(lang) < 0) {
+        lang = 'es';
+        var nav = navigator.languages || [navigator.language || ''];
+        for (var i = 0; i < nav.length; i++) {
+          var c = String(nav[i]).slice(0, 2).toLowerCase();
+          if (L.indexOf(c) >= 0) { lang = c; break; }
+        }
+      }
+      window.__initialLang = lang;
+      if (lang !== 'es') { d.classList.add('i18n-wait'); setTimeout(function () { d.classList.remove('i18n-wait'); }, 1500); }
+    })();
+  </script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="chmod-logo" viewBox="0 0 34.4 7"><g class="mark"><rect class="t1" x="0.00" y="0.00" width="2.1" height="2.1"/><rect class="t1" x="2.45" y="0.00" width="2.1" height="2.1"/><rect class="t1" x="4.90" y="0.00" width="2.1" height="2.1"/><rect class="t1" x="0.00" y="2.45" width="2.1" height="2.1"/><rect class="t2" x="2.45" y="2.45" width="2.1" height="2.1"/><rect class="t1" x="4.90" y="2.45" width="2.1" height="2.1"/><rect class="t1" x="0.00" y="4.90" width="2.1" height="2.1"/><rect class="t2" x="2.45" y="4.90" width="2.1" height="2.1"/><rect class="t1" x="4.90" y="4.90" width="2.1" height="2.1"/></g><g class="word"><rect x="9.4" y="2" width="1.02" height="1.02"/><rect x="10.4" y="2" width="1.02" height="1.02"/><rect x="11.4" y="2" width="1.02" height="1.02"/><rect x="8.4" y="3" width="1.02" height="1.02"/><rect x="8.4" y="4" width="1.02" height="1.02"/><rect x="8.4" y="5" width="1.02" height="1.02"/><rect x="9.4" y="6" width="1.02" height="1.02"/><rect x="10.4" y="6" width="1.02" height="1.02"/><rect x="11.4" y="6" width="1.02" height="1.02"/><rect x="13.4" y="0" width="1.02" height="1.02"/><rect x="13.4" y="1" width="1.02" height="1.02"/><rect x="13.4" y="2" width="1.02" height="1.02"/><rect x="14.4" y="2" width="1.02" height="1.02"/><rect x="15.4" y="2" width="1.02" height="1.02"/><rect x="13.4" y="3" width="1.02" height="1.02"/><rect x="16.4" y="3" width="1.02" height="1.02"/><rect x="13.4" y="4" width="1.02" height="1.02"/><rect x="16.4" y="4" width="1.02" height="1.02"/><rect x="13.4" y="5" width="1.02" height="1.02"/><rect x="16.4" y="5" width="1.02" height="1.02"/><rect x="13.4" y="6" width="1.02" height="1.02"/><rect x="16.4" y="6" width="1.02" height="1.02"/><rect x="18.4" y="2" width="1.02" height="1.02"/><rect x="19.4" y="2" width="1.02" height="1.02"/><rect x="20.4" y="2" width="1.02" height="1.02"/><rect x="21.4" y="2" width="1.02" height="1.02"/><rect x="18.4" y="3" width="1.02" height="1.02"/><rect x="20.4" y="3" width="1.02" height="1.02"/><rect x="22.4" y="3" width="1.02" height="1.02"/><rect x="18.4" y="4" width="1.02" height="1.02"/><rect x="20.4" y="4" width="1.02" height="1.02"/><rect x="22.4" y="4" width="1.02" height="1.02"/><rect x="18.4" y="5" width="1.02" height="1.02"/><rect x="20.4" y="5" width="1.02" height="1.02"/><rect x="22.4" y="5" width="1.02" height="1.02"/><rect x="18.4" y="6" width="1.02" height="1.02"/><rect x="20.4" y="6" width="1.02" height="1.02"/><rect x="22.4" y="6" width="1.02" height="1.02"/><rect x="25.4" y="2" width="1.02" height="1.02"/><rect x="26.4" y="2" width="1.02" height="1.02"/><rect x="27.4" y="2" width="1.02" height="1.02"/><rect x="24.4" y="3" width="1.02" height="1.02"/><rect x="28.4" y="3" width="1.02" height="1.02"/><rect x="24.4" y="4" width="1.02" height="1.02"/><rect x="28.4" y="4" width="1.02" height="1.02"/><rect x="24.4" y="5" width="1.02" height="1.02"/><rect x="28.4" y="5" width="1.02" height="1.02"/><rect x="25.4" y="6" width="1.02" height="1.02"/><rect x="26.4" y="6" width="1.02" height="1.02"/><rect x="27.4" y="6" width="1.02" height="1.02"/><rect x="33.4" y="0" width="1.02" height="1.02"/><rect x="33.4" y="1" width="1.02" height="1.02"/><rect x="31.4" y="2" width="1.02" height="1.02"/><rect x="32.4" y="2" width="1.02" height="1.02"/><rect x="33.4" y="2" width="1.02" height="1.02"/><rect x="30.4" y="3" width="1.02" height="1.02"/><rect x="33.4" y="3" width="1.02" height="1.02"/><rect x="30.4" y="4" width="1.02" height="1.02"/><rect x="33.4" y="4" width="1.02" height="1.02"/><rect x="30.4" y="5" width="1.02" height="1.02"/><rect x="33.4" y="5" width="1.02" height="1.02"/><rect x="31.4" y="6" width="1.02" height="1.02"/><rect x="32.4" y="6" width="1.02" height="1.02"/><rect x="33.4" y="6" width="1.02" height="1.02"/></g></symbol></svg>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="top">
+  <div class="container nav__inner">
+    <a href="#top" class="logo" aria-label="chmod, inicio"><svg class="logo__svg"><use href="#chmod-logo"/></svg></a>
+    <nav class="nav__links" id="menu" aria-label="Principal">
+      <a href="#plataforma">Plataforma</a>
+      <a href="#identidad-continua">Identidad continua</a>
+      <a href="#por-que">Por qué chmod</a>
+      <a href="#industrias">Industrias</a>
+      <a href="#faq">Preguntas</a>
+      <a href="https://chmod-admin-mcp-fix-sdk-location-permission-9958a75.mintlify.app/" target="_blank" rel="noopener" class="ext">Documentación</a>
+      <a href="#contacto" class="btn btn--primary nav__cta-mobile">Agendar demo</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Idioma">
+      <button data-lang="es" aria-pressed="true" class="is-on">ES</button><button data-lang="en" aria-pressed="false">EN</button><button data-lang="pt" aria-pressed="false">PT</button>
+    </div>
+    <a href="#contacto" class="btn btn--primary nav__cta">Agendar demo</a>
+    <button class="nav__burger" aria-label="Abrir menú" aria-controls="menu" aria-expanded="false"><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="pixels pixels--hero" aria-hidden="true"></div>
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <span class="eyebrow"><b>&gt;</b> infraestructura de identidad</span>
+      <h1>Sabé con certeza quién es tu usuario.</h1>
+      <p class="lead">Verificación de identidad, onboarding y autenticación en <strong>una sola plataforma</strong> y <strong>una sola integración</strong>. Desde el primer onboarding hasta cada acceso y operación.</p>
+      <div class="hero__ctas">
+        <a href="#contacto" class="btn btn--primary btn--lg">Agendar una demo</a>
+        <a href="#plataforma" class="btn btn--ghost btn--lg">Ver la plataforma</a>
+      </div>
+      <ul class="hero__proof">
+        <li><span class="dot"></span>SDK nativo Android e iOS</li>
+        <li><span class="dot"></span>En producción en días</li>
+        <li><span class="dot"></span>Hecho para LatAm</li>
+      </ul>
+    </div>
+
+    <div class="hero__visual">
+      <div class="phone" id="heroPhone" aria-label="Demostración del flujo de verificación" role="img">
+        <div class="phone__notch"></div>
+        <div class="screen">
+          <div class="sdk-top">
+            <span class="sdk-back">‹</span>
+            <div class="sdk-steps"><i class="on"></i><i></i><i></i></div>
+            <span class="sdk-brand">tu<b>app</b></span>
+          </div>
+
+          <!-- Paso 1: documento -->
+          <div class="stage is-active" data-stage="0">
+            <p class="sdk-title">Frente de tu documento</p>
+            <p class="sdk-sub">Ubicalo dentro del marco</p>
+            <div class="doc-frame">
+              <span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
+              <div class="idcard">
+                <div class="idcard__photo"></div>
+                <div class="idcard__lines"><i></i><i></i><i class="s"></i><i></i></div>
+                <div class="idcard__mrz">IDARG&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;<br>&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</div>
+              </div>
+              <div class="scanline"></div>
+            </div>
+            <p class="sdk-status"><span class="spinner"></span>Analizando autenticidad…</p>
+          </div>
+
+          <!-- Paso 2: prueba de vida -->
+          <div class="stage" data-stage="1">
+            <p class="sdk-title">Prueba de vida</p>
+            <p class="sdk-sub">Mirá a la cámara y acercate</p>
+            <div class="face-oval">
+              <svg viewBox="0 0 100 120" class="face-svg" aria-hidden="true">
+                <ellipse cx="50" cy="52" rx="26" ry="32" />
+                <path d="M18 120c4-22 18-30 32-30s28 8 32 30" />
+                <circle cx="40" cy="48" r="2.4" class="eye"/><circle cx="60" cy="48" r="2.4" class="eye"/>
+                <path d="M42 66q8 6 16 0" class="mouth"/>
+              </svg>
+              <div class="face-ring"></div>
+            </div>
+            <p class="sdk-status"><span class="spinner"></span>Comparando con el documento…</p>
+          </div>
+
+          <!-- Paso 3: listo -->
+          <div class="stage" data-stage="2">
+            <div class="done-badge" aria-hidden="true">
+              <svg viewBox="0 0 7 7"><rect x="0" y="3" width="1" height="1"/><rect x="1" y="4" width="1" height="1"/><rect x="2" y="5" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/><rect x="4" y="3" width="1" height="1"/><rect x="5" y="2" width="1" height="1"/><rect x="6" y="1" width="1" height="1"/></svg>
+            </div>
+            <p class="sdk-title center">Identidad verificada</p>
+            <ul class="checks">
+              <li><span>Documento auténtico</span><b>✓</b></li>
+              <li><span>Prueba de vida</span><b>✓</b></li>
+              <li><span>Rostro coincide</span><b>✓</b></li>
+              <li><span>Listas de sanciones</span><b>✓</b></li>
+            </ul>
+            <span class="sdk-btn">Continuar</span>
+          </div>
+        </div>
+      </div>
+      <div class="float-chip fc-1"><b>&gt;</b> recaptura de pantalla: no</div>
+      <div class="float-chip fc-2"><span class="ok">✓</span> imagen generada por IA: descartada</div>
+      <div class="float-chip fc-3"><span class="ok">✓</span> OFAC · sin coincidencias</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROBLEMA ============ -->
+<section class="section" id="problema">
+  <div class="container">
+    <div class="section__head reveal">
+      <span class="eyebrow"><b>&gt;</b> el problema</span>
+      <h2>Salir a producción no debería requerir cinco proveedores.</h2>
+      <p class="lead">Hoy una fintech resuelve por su cuenta, o con varios proveedores distintos, la autenticación, la verificación de identidad, el antifraude, la consulta a fuentes de gobierno y el onboarding.</p>
+    </div>
+
+    <div class="versus reveal">
+      <div class="versus__card versus__card--before">
+        <p class="versus__label">Hoy</p>
+        <ul class="stack">
+          <li><span>Autenticación</span><em>Proveedor A</em></li>
+          <li><span>Verificación de identidad</span><em>Proveedor B</em></li>
+          <li><span>Prevención de fraude</span><em>Proveedor C</em></li>
+          <li><span>Fuentes de gobierno</span><em>Proveedor D</em></li>
+          <li><span>Onboarding</span><em>Desarrollo propio</em></li>
+        </ul>
+        <div class="versus__cost">
+          <span>Meses de desarrollo</span><span>Múltiples contratos</span><span>Experiencia fragmentada</span>
+        </div>
+      </div>
+
+      <div class="versus__arrow" aria-hidden="true">→</div>
+
+      <div class="versus__card versus__card--after">
+        <p class="versus__label">Con chmod</p>
+        <div class="one">
+          <svg class="one__logo"><use href="#chmod-logo"/></svg>
+          <div class="one__chips">
+            <span>Autenticación</span><span>KYC</span><span>Antifraude</span><span>Fuentes de gobierno</span><span>Onboarding</span>
+          </div>
+        </div>
+        <div class="versus__cost versus__cost--good">
+          <span>Días, no meses</span><span>Un contrato</span><span>Una experiencia</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PLATAFORMA ============ -->
+<section class="section section--mint" id="plataforma">
+  <div class="container">
+    <div class="section__head section__head--center reveal">
+      <span class="eyebrow"><b>&gt;</b> la plataforma</span>
+      <h2>Tres productos, una integración.</h2>
+    </div>
+    <div class="cards3">
+      <article class="pcard reveal">
+        <div class="picon" aria-hidden="true"><i></i><i></i><i></i><i></i><i class="off"></i><i></i><i></i><i></i><i></i></div>
+        <h3>Verificación de identidad</h3>
+        <p>Prueba de vida, biometría facial y análisis documental para detectar adulteraciones. Cruce con fuentes gubernamentales y listas de sanciones como OFAC.</p>
+        <a href="#kyc" class="more">Ver KYC <span>→</span></a>
+      </article>
+      <article class="pcard reveal">
+        <div class="picon" aria-hidden="true"><i></i><i></i><i></i><i class="off"></i><i class="off"></i><i class="off"></i><i></i><i></i><i></i></div>
+        <h3>Onboarding simplificado</h3>
+        <p>Un SDK cuya experiencia e interfaz son configurables. Adaptás pasos, diseño y marca sin construir la verificación desde cero.</p>
+        <a href="#sdk" class="more">Ver el SDK <span>→</span></a>
+      </article>
+      <article class="pcard reveal">
+        <div class="picon" aria-hidden="true"><i></i><i class="off"></i><i></i><i></i><i></i><i></i><i></i><i class="off"></i><i></i></div>
+        <h3>Autenticación y MFA</h3>
+        <p>Contraseña, PIN, OTP, TOTP, biometría del dispositivo y biometría con prueba de vida para las operaciones sensibles.</p>
+        <a href="#mfa" class="more">Ver factores <span>→</span></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KYC (dark) ============ -->
+<section class="section section--dark" id="kyc">
+  <div class="pixels pixels--dark" aria-hidden="true"></div>
+  <div class="container split">
+    <div class="split__visual reveal">
+      <div class="report">
+        <div class="report__head">
+          <span class="mono">&gt; transaction/7f3a…c21</span>
+          <span class="pill pill--ok">APROBADA</span>
+        </div>
+        <div class="report__row"><span>Prueba de vida pasiva</span><b class="ok">superada</b></div>
+        <div class="report__row"><span>Comparación facial 1:1</span><b class="ok">coincide</b></div>
+        <div class="report__row"><span>Lectura MRZ / OCR</span><b class="ok">consistente</b></div>
+        <div class="report__row"><span>Foto de una pantalla</span><b class="ok">no</b></div>
+        <div class="report__row"><span>Recaptura / fotocopia</span><b class="ok">no</b></div>
+        <div class="report__row"><span>Imagen generada por IA</span><b class="ok">no</b></div>
+        <div class="report__row"><span>Listas de sanciones (OFAC)</span><b class="ok">sin coincidencias</b></div>
+        <div class="report__bar"><i style="--w:100%"></i></div>
+        <p class="report__foot mono">políticas del cliente aplicadas · veredicto automático</p>
+      </div>
+    </div>
+    <div class="split__copy reveal">
+      <span class="eyebrow eyebrow--dark"><b>&gt;</b> KYC</span>
+      <h2>Una persona real, un documento real y los dos coinciden.</h2>
+      <p class="lead">Validamos cada identidad con varias capas de análisis y aplicamos tus políticas para emitir un veredicto automático.</p>
+      <ul class="ticks">
+        <li><b>Prueba de vida pasiva:</b> sin gestos ni instrucciones raras para el usuario.</li>
+        <li><b>Biometría facial:</b> el rostro de la selfie contra el del documento.</li>
+        <li><b>Análisis documental:</b> detecta fotos de pantallas, recapturas e imágenes generadas por IA.</li>
+        <li><b>Fuentes de gobierno y sanciones:</b> cruce de datos con registros oficiales y listas como OFAC.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SDK (configurable) ============ -->
+<section class="section section--paper" id="sdk">
+  <div class="container">
+    <div class="section__head section__head--center reveal">
+      <span class="eyebrow"><b>&gt;</b> onboarding</span>
+      <h2>Tu marca, tus pasos, nuestro motor.</h2>
+      <p class="lead">El SDK se integra de forma nativa en tu app y se viste con tu identidad. Elegí un estilo, cambiá el color, los bordes o el idioma, y mirá lo que van a ver tus usuarios.</p>
+    </div>
+
+    <div class="studio reveal">
+      <!-- Controles -->
+      <div class="studio__controls">
+        <div class="ctl">
+          <p class="ctl__label mono">&gt; arrancá de un estilo</p>
+          <div class="presets" role="group" aria-label="Estilos">
+            <button class="preset" data-preset="verde"><i style="--a:#12904F;--b:#FFFFFF"></i>Verde sobre blanco</button>
+            <button class="preset" data-preset="oro"><i style="--a:#F0B90B;--b:#0B0E11"></i>Oro sobre negro</button>
+            <button class="preset" data-preset="azul"><i style="--a:#3D6BFF;--b:#0D1117"></i>Azul sobre negro</button>
+            <button class="preset" data-preset="violeta"><i style="--a:#5B3BD6;--b:#FFFFFF"></i>Violeta sobre blanco</button>
+            <button class="preset" data-preset="coral"><i style="--a:#FF5A36;--b:#FFFFFF"></i>Coral sobre blanco</button>
+          </div>
+        </div>
+
+        <div class="ctl">
+          <label class="ctl__label mono" for="brandInput">&gt; tu marca</label>
+          <input id="brandInput" class="txt" maxlength="14" value="tuapp" autocomplete="off" spellcheck="false">
+        </div>
+
+        <div class="ctl">
+          <p class="ctl__label mono">&gt; color principal</p>
+          <div class="swatches" role="group" aria-label="Color principal">
+            <button class="swatch" style="--c:#12904F" data-color="#12904F" aria-label="Verde"></button>
+            <button class="swatch" style="--c:#F0B90B" data-color="#F0B90B" aria-label="Amarillo"></button>
+            <button class="swatch" style="--c:#3D6BFF" data-color="#3D6BFF" aria-label="Azul"></button>
+            <button class="swatch" style="--c:#5B3BD6" data-color="#5B3BD6" aria-label="Violeta"></button>
+            <button class="swatch" style="--c:#FF5A36" data-color="#FF5A36" aria-label="Coral"></button>
+            <label class="swatch swatch--pick" title="Tu color exacto"><input type="color" id="colorPick" value="#12904F" aria-label="Elegir color exacto"></label>
+          </div>
+        </div>
+
+        <div class="ctl ctl--row">
+          <div>
+            <p class="ctl__label mono">&gt; tema</p>
+            <div class="seg" data-ctl="theme"><button data-v="light">Claro</button><button data-v="dark">Oscuro</button></div>
+          </div>
+          <div>
+            <p class="ctl__label mono">&gt; idioma</p>
+            <div class="seg" data-ctl="lang"><button data-v="es">ES</button><button data-v="pt">PT</button><button data-v="en">EN</button></div>
+          </div>
+        </div>
+
+        <div class="ctl">
+          <p class="ctl__label mono">&gt; bordes</p>
+          <div class="seg" data-ctl="shape"><button data-v="NONE">Recto</button><button data-v="SMALL">Suave</button><button data-v="LARGE">Redondo</button><button data-v="FULL">Píldora</button></div>
+        </div>
+
+        <div class="ctl">
+          <p class="ctl__label mono">&gt; tipografía</p>
+          <div class="seg" data-ctl="font"><button data-v="jakarta" class="f-jakarta">Moderna</button><button data-v="grotesk" class="f-grotesk">Técnica</button><button data-v="serif" class="f-serif">Clásica</button></div>
+        </div>
+
+        <div class="ctl">
+          <p class="ctl__label mono">&gt; pantallas</p>
+          <label class="chk"><input type="checkbox" id="optWelcome" checked> Bienvenida</label>
+          <label class="chk"><input type="checkbox" id="optResult" checked> Resultado</label>
+        </div>
+      </div>
+
+      <!-- Vista previa -->
+      <div class="studio__preview">
+        <div class="phone phone--sdk" id="sdkPhone" aria-live="polite">
+          <div class="phone__notch"></div>
+          <div class="screen">
+            <div class="sdk-screen" data-s="welcome">
+              <div class="s-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="26" height="18" rx="3"/><circle cx="11" cy="15" r="3"/><path d="M6.5 21.5c1-2.2 2.6-3 4.5-3s3.5.8 4.5 3M19 13h6M19 17h4"/></svg>
+              </div>
+              <p class="s-title" data-t="w_title"></p>
+              <p class="s-sub" data-t="w_sub"></p>
+              <ul class="s-list">
+                <li><i></i><span data-t="w_1"></span></li>
+                <li><i></i><span data-t="w_2"></span></li>
+                <li><i></i><span data-t="w_3"></span></li>
+              </ul>
+              <span class="s-btn" data-t="w_btn"></span>
+              <p class="s-powered mono" data-t="powered"></p>
+            </div>
+
+            <div class="sdk-screen" data-s="doc">
+              <div class="s-progress"><i></i></div>
+              <p class="s-title" data-t="d_title"></p>
+              <p class="s-sub" data-t="d_sub"></p>
+              <div class="s-cam">
+                <div class="s-cam__frame">
+                  <span class="k tl"></span><span class="k tr"></span><span class="k bl"></span><span class="k br"></span>
+                  <div class="s-cam__card"><i></i><b></b><b class="s"></b></div>
+                  <div class="s-cam__scan"></div>
+                </div>
+              </div>
+              <p class="s-hint" data-t="d_hint"></p>
+              <span class="s-btn" data-t="d_btn"></span>
+            </div>
+
+            <div class="sdk-screen" data-s="result">
+              <div class="s-ok" aria-hidden="true">
+                <svg viewBox="0 0 7 7"><rect x="0" y="3" width="1" height="1"/><rect x="1" y="4" width="1" height="1"/><rect x="2" y="5" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/><rect x="4" y="3" width="1" height="1"/><rect x="5" y="2" width="1" height="1"/><rect x="6" y="1" width="1" height="1"/></svg>
+              </div>
+              <p class="s-title center" data-t="r_title"></p>
+              <p class="s-sub center" data-t="r_sub"></p>
+              <ul class="s-list s-list--sum">
+                <li><span data-t="r_1"></span><b>✓</b></li>
+                <li><span data-t="r_2"></span><b>✓</b></li>
+              </ul>
+              <span class="s-btn" data-t="r_btn"></span>
+            </div>
+          </div>
+        </div>
+        <div class="seg seg--screens" data-ctl="screen" aria-label="Pantalla">
+          <button data-v="welcome">Bienvenida</button><button data-v="doc">Documento</button><button data-v="result">Resultado</button>
+        </div>
+      </div>
+
+      <!-- Código -->
+      <div class="studio__code">
+        <div class="code-head">
+          <span class="mono"><i class="dotc"></i><i class="dotc"></i><i class="dotc"></i>SdkConfig.kt</span>
+          <button class="copy mono" id="copyCode">copiar</button>
+        </div>
+        <pre class="code code--live" id="liveCode"></pre>
+        <p class="code-note">Es la configuración real del SDK: lo que ves en el teléfono es lo que escribís en tu código. Sin pantallas de terceros.</p>
+      </div>
+    </div>
+
+    <div class="configs reveal">
+      <p class="mono configs__eyebrow">&gt; y además</p>
+      <h3 class="configs__title">Todo lo que se configura</h3>
+      <div class="cfg-grid">
+        <div class="cfg"><span class="mono cfg__k">appearance.light · dark</span><b>Colores</b><p>19 tokens por tema: principal, fondos, superficies, bordes, errores y pantallas de resultado.</p></div>
+        <div class="cfg"><span class="mono cfg__k">ThemeMode</span><b>Tema</b><p>Claro, oscuro o el que tenga el sistema del usuario.</p></div>
+        <div class="cfg"><span class="mono cfg__k">typography</span><b>Tipografía</b><p>Tu propia fuente y tamaños de título, texto y etiquetas.</p></div>
+        <div class="cfg"><span class="mono cfg__k">ShapePreset</span><b>Formas</b><p>Siete niveles de redondeo, de recto a píldora.</p></div>
+        <div class="cfg"><span class="mono cfg__k">locale.texts</span><b>Idiomas y textos</b><p>Español, portugués, inglés, francés, italiano, alemán y ruso. Y cualquier texto reescrito con tu tono.</p></div>
+        <div class="cfg"><span class="mono cfg__k">documentCapture</span><b>Captura de documento</b><p>Disparo automático o manual, detección del tipo de documento, vista previa y reintentos.</p></div>
+        <div class="cfg"><span class="mono cfg__k">show*Screen</span><b>Pantallas</b><p>Bienvenida, resultado y detalle de error: las mostrás o las resolvés vos.</p></div>
+        <div class="cfg"><span class="mono cfg__k">locationPermission</span><b>Ubicación</b><p>Permiso requerido, opcional o desactivado, según tu política de riesgo.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IDENTIDAD CONTINUA (dark) ============ -->
+<section class="section section--dark" id="identidad-continua">
+  <div class="container">
+    <div class="section__head section__head--center reveal">
+      <span class="eyebrow eyebrow--dark"><b>&gt;</b> lo que nos diferencia</span>
+      <h2>Identidad continua: verificamos una vez y la identidad queda.</h2>
+      <p class="lead">El rostro validado en el onboarding se reutiliza después para autenticar al usuario. La mayoría de los proveedores trata KYC y autenticación como productos separados. Nosotros no.</p>
+    </div>
+    <ol class="timeline reveal">
+      <li>
+        <span class="tl-dot tl-dot--origin"></span>
+        <p class="mono">01 · onboarding</p>
+        <h3>Se valida el rostro</h3>
+        <p>Documento, prueba de vida y comparación facial. Queda una identidad verificada.</p>
+      </li>
+      <li>
+        <span class="tl-dot"></span>
+        <p class="mono">02 · operación sensible</p>
+        <h3>Transferencia grande</h3>
+        <p>Una selfie con prueba de vida confirma que es la misma persona.</p>
+      </li>
+      <li>
+        <span class="tl-dot"></span>
+        <p class="mono">03 · recuperación</p>
+        <h3>Perdió su clave</h3>
+        <p>Recupera la cuenta con su rostro, sin tickets de soporte ni preguntas de seguridad.</p>
+      </li>
+      <li>
+        <span class="tl-dot"></span>
+        <p class="mono">04 · nuevo dispositivo</p>
+        <h3>Cambió de celular</h3>
+        <p>El nuevo equipo se habilita con la misma biometría del onboarding.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ MFA ============ -->
+<section class="section" id="mfa">
+  <div class="container split">
+    <div class="split__copy reveal">
+      <span class="eyebrow"><b>&gt;</b> autenticación</span>
+      <h2>El factor justo para cada momento.</h2>
+      <p class="lead">Combiná factores según el riesgo de cada acción. Poca fricción para entrar a la app y máxima seguridad para mover dinero.</p>
+    </div>
+    <div class="factors reveal">
+      <div class="factor"><span class="factor__k mono">***</span><b>Contraseña</b><small>El clásico, bien protegido</small></div>
+      <div class="factor"><span class="factor__k mono">4·8·1·5</span><b>PIN</b><small>Rápido para el día a día</small></div>
+      <div class="factor"><span class="factor__k mono">SMS · mail</span><b>OTP</b><small>Código de un solo uso</small></div>
+      <div class="factor"><span class="factor__k mono">30s ⟳</span><b>TOTP</b><small>Compatible con Google Authenticator</small></div>
+      <div class="factor"><span class="factor__k mono">touch · face</span><b>Biometría del dispositivo</b><small>Huella o Face ID del celular</small></div>
+      <div class="factor factor--hi"><span class="factor__k mono">liveness</span><b>Biometría con prueba de vida</b><small>Para operaciones sensibles</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ POR QUÉ ============ -->
+<section class="section section--mint" id="por-que">
+  <div class="container">
+    <div class="section__head section__head--center reveal">
+      <span class="eyebrow"><b>&gt;</b> por qué chmod</span>
+      <h2>Lo que cambia cuando todo está en un solo lugar.</h2>
+    </div>
+    <div class="compare reveal" role="table" aria-label="Comparación">
+      <div class="compare__row compare__row--head" role="row">
+        <span role="columnheader"></span>
+        <span role="columnheader">El camino habitual</span>
+        <span role="columnheader" class="us"><svg class="compare__logo"><use href="#chmod-logo"/></svg></span>
+      </div>
+      <div class="compare__row" role="row"><span role="rowheader">Integración</span><span role="cell">Un proveedor por problema</span><span role="cell" class="us">Una sola integración</span></div>
+      <div class="compare__row" role="row"><span role="rowheader">Tiempo a producción</span><span role="cell">Meses</span><span role="cell" class="us">Días</span></div>
+      <div class="compare__row" role="row"><span role="rowheader">KYC y autenticación</span><span role="cell">Productos separados</span><span role="cell" class="us">El mismo rostro, de punta a punta</span></div>
+      <div class="compare__row" role="row"><span role="rowheader">Experiencia</span><span role="cell">Pantallas de terceros</span><span role="cell" class="us">SDK nativo con tu marca</span></div>
+      <div class="compare__row" role="row"><span role="rowheader">Costo</span><span role="cell">Precios de jugador global</span><span role="cell" class="us">Significativamente menor</span></div>
+      <div class="compare__row" role="row"><span role="rowheader">Cambiar de proveedor</span><span role="cell">Reprocesar a cada usuario</span><span role="cell" class="us">Migración gratuita, con biometría</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MIGRACIÓN ============ -->
+<section class="migrate" id="migracion">
+  <div class="pixels pixels--green" aria-hidden="true"></div>
+  <div class="container migrate__wrap">
+    <div class="migrate__head reveal">
+      <div>
+        <span class="eyebrow eyebrow--onGreen"><b>&gt;</b> migración · gratis</span>
+        <h2>Lo que ya verificaste sigue verificado.</h2>
+      </div>
+      <p class="migrate__lead">Cambiar de proveedor suele significar <strong>reprocesar a cada usuario</strong>: pagar otra vez por identidades en las que ya confiabas y volver a pedirles documento y selfie. Con chmod no. Migramos tu base existente, con su biometría facial, sin costo.</p>
+    </div>
+
+    <div class="mflow reveal" aria-label="Cómo viaja tu base">
+      <div class="mnode">
+        <p class="mono mnode__k">01 · tu base actual</p>
+        <ul><li>Fotos de documentos</li><li>Selfies validadas</li><li>Datos de cada usuario</li></ul>
+      </div>
+      <div class="mpipe" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="mnode">
+        <p class="mono mnode__k">02 · acceso temporal</p>
+        <ul><li>URL prefirmada por imagen</li><li>Vence sola</li><li>No sale de tu nube hasta que la leemos</li></ul>
+      </div>
+      <div class="mpipe" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="mnode mnode--us">
+        <svg class="mnode__logo"><use href="#chmod-logo"/></svg>
+        <ul><li>Identidades listas</li><li>El rostro ya sirve para autenticar</li><li>Tus usuarios ni se enteran</li></ul>
+      </div>
+    </div>
+
+    <div class="methods">
+      <article class="method method--rec reveal">
+        <span class="method__tag mono">recomendado</span>
+        <h3>URLs prefirmadas</h3>
+        <p>Nos compartís acceso temporal a cada imagen desde tu propio almacenamiento. Los archivos no viajan en el request y el permiso vence solo.</p>
+        <div class="method__chips"><span>Amazon S3 · presigned URLs</span><span>Google Cloud Storage · signed URLs</span><span>Azure Blob · SAS</span></div>
+      </article>
+      <article class="method reveal">
+        <span class="method__tag mono">directo</span>
+        <h3>Imágenes en base64</h3>
+        <p>Enviás cada imagen codificada dentro de la misma llamada a la API. Sin configurar permisos en tu nube.</p>
+        <div class="method__chips"><span>API REST</span><span>Sin infraestructura extra</span></div>
+      </article>
+      <article class="method reveal">
+        <span class="method__tag mono">a medida</span>
+        <h3>Lo conversamos</h3>
+        <p>¿Tu base vive en servidores propios, on-premise o en otro formato? Armamos juntos el camino que mejor se adapte.</p>
+        <div class="method__chips"><span>On-premise</span><span>Servidores propios</span><span>Otros formatos</span></div>
+      </article>
+    </div>
+
+    <div class="migrate__cta reveal">
+      <p>La migración no tiene costo.</p>
+      <a href="#contacto" class="btn btn--light btn--lg">Planificar mi migración</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INDUSTRIAS ============ -->
+<section class="section" id="industrias">
+  <div class="container">
+    <div class="section__head section__head--center reveal">
+      <span class="eyebrow"><b>&gt;</b> para quién</span>
+      <h2>Para cualquier empresa que necesite saber quién está del otro lado.</h2>
+    </div>
+    <div class="industries reveal">
+      <div class="ind-group">
+        <p class="mono ind-title">&gt; finanzas</p>
+        <div class="tags">
+          <span>Fintechs en etapa temprana</span><span>Billeteras digitales</span><span>Neobancos</span><span>Prestamistas digitales</span><span>BNPL</span><span>Remesadoras</span><span>Procesadores de pago</span><span>Cooperativas y mutuales</span><span>Financieras</span><span>Bancos regionales</span>
+        </div>
+      </div>
+      <div class="ind-group">
+        <p class="mono ind-title">&gt; inversión y cripto</p>
+        <div class="tags">
+          <span>Exchanges cripto</span><span>Plataformas de inversión</span><span>Brokers</span>
+        </div>
+      </div>
+      <div class="ind-group">
+        <p class="mono ind-title">&gt; plataformas y servicios</p>
+        <div class="tags">
+          <span>Apuestas y gaming online</span><span>Economía gig</span><span>Delivery y movilidad</span><span>Insurtech</span><span>Proptech y alquileres</span><span>Telemedicina</span><span>Telcos</span><span>Marketplaces</span><span>E-commerce</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CÓMO FUNCIONA ============ -->
+<section class="section section--paper" id="como">
+  <div class="container">
+    <div class="section__head section__head--center reveal">
+      <span class="eyebrow"><b>&gt;</b> cómo funciona</span>
+      <h2>De la firma a producción, en días.</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><span class="step__n mono">01</span><h3>Integrás el SDK</h3><p>Una dependencia en tu app Android o iOS y una API para tu backend.</p><pre class="code"><span class="k">dependencies</span> {
+  implementation(<span class="s">"com.chmod.kyc:chmod-kyc-sdk"</span>)
+}</pre></div>
+      <div class="step reveal"><span class="step__n mono">02</span><h3>Configurás el flujo</h3><p>Pasos, marca y políticas de aprobación, adaptados a tu producto y tu regulación.</p><pre class="code">{
+  <span class="s">"type"</span>: <span class="s">"DOCUMENT_AND_BIOMETRIC"</span>,
+  <span class="s">"liveness"</span>: <span class="k">true</span>
+}</pre></div>
+      <div class="step reveal"><span class="step__n mono">03</span><h3>Salís a producción</h3><p>Tus usuarios se verifican y autentican dentro de tu app, sin salir de ella.</p><pre class="code"><span class="p">&gt;</span> status: <span class="ok">APPROVED</span>
+<span class="p">&gt;</span> _</pre></div>
+    </div>
+    <a class="docs-card reveal" href="https://chmod-admin-mcp-fix-sdk-location-permission-9958a75.mintlify.app/" target="_blank" rel="noopener">
+      <span class="docs-card__icon mono" aria-hidden="true">{ }</span>
+      <span class="docs-card__txt">
+        <span class="mono docs-card__k">&gt; para developers</span>
+        <b>Toda la API y el SDK, documentados.</b>
+        <span>Guías de integración, referencia de endpoints y configuración del SDK.</span>
+      </span>
+      <span class="btn btn--primary docs-card__btn">Ver documentación <span aria-hidden="true">↗</span></span>
+    </a>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section" id="faq">
+  <div class="container faq-wrap">
+    <div class="section__head reveal">
+      <span class="eyebrow"><b>&gt;</b> faq</span>
+      <h2>Preguntas frecuentes</h2>
+    </div>
+    <div class="faq reveal">
+      <details>
+        <summary>¿Cuánto tarda la integración?</summary>
+        <p>Días, no meses. El SDK trae el flujo completo de captura, verificación y autenticación. Tu equipo solo lo configura y lo conecta.</p>
+      </details>
+      <details>
+        <summary>¿En qué plataformas funciona el SDK?</summary>
+        <p>En Android e iOS, de forma nativa. La experiencia se integra en tu interfaz con tus colores, tu marca y los pasos que elijas.</p>
+      </details>
+      <details>
+        <summary>¿Cómo detectan documentos adulterados?</summary>
+        <p>Analizamos cada imagen para detectar fotos tomadas a una pantalla, recapturas e imágenes generadas por IA. Además leemos la zona MRZ y comparamos el rostro del documento con el de la prueba de vida.</p>
+      </details>
+      <details>
+        <summary>Ya uso otro proveedor. ¿Tengo que volver a verificar a todos mis usuarios?</summary>
+        <p>No. Migramos gratis tu base existente, incluida la biometría facial, así que no pagás dos veces por identidades que ya verificaste. Nos compartís las imágenes con URLs prefirmadas desde tu nube (S3, Google Cloud Storage o Azure) o en base64 por API. Si tu base está on-premise, armamos el camino juntos.</p>
+      </details>
+      <details>
+        <summary>¿Qué es la identidad continua?</summary>
+        <p>El rostro que validás en el onboarding se convierte en un factor de autenticación. Lo usás para confirmar operaciones sensibles, recuperar cuentas o habilitar un dispositivo nuevo, sin integrar otro proveedor.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta section--dark" id="contacto">
+  <div class="pixels pixels--dark" aria-hidden="true"></div>
+  <div class="container cta__inner reveal">
+    <p class="mono cta__prompt"><b>&gt;</b> chmod +x tu-onboarding<span class="caret"></span></p>
+    <h2>Crecé con seguridad y confianza.</h2>
+    <p class="lead">Cumplimiento regulatorio, prevención de fraude y una experiencia fluida en una sola integración.</p>
+    <a href="mailto:julian.waksmann@chmodlab.com,hugo.guarneri@chmodlab.com?subject=Demo%20chmod" class="btn btn--primary btn--lg">Agendar una demo</a>
+    <p class="cta__mails mono">o escribinos a <a href="mailto:julian.waksmann@chmodlab.com">julian.waksmann@chmodlab.com</a> · <a href="mailto:hugo.guarneri@chmodlab.com">hugo.guarneri@chmodlab.com</a></p>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div>
+      <svg class="footer__logo"><use href="#chmod-logo"/></svg>
+      <p class="mono footer__tag">&gt; infraestructura para verificación de identidad y prevención de fraude</p>
+      <p class="footer__mails"><a href="mailto:julian.waksmann@chmodlab.com">julian.waksmann@chmodlab.com</a><br><a href="mailto:hugo.guarneri@chmodlab.com">hugo.guarneri@chmodlab.com</a></p>
+    </div>
+    <nav class="footer__links" aria-label="Pie">
+      <a href="#plataforma">Plataforma</a>
+      <a href="#identidad-continua">Identidad continua</a>
+      <a href="#por-que">Por qué chmod</a>
+      <a href="#faq">Preguntas</a>
+      <a href="https://chmod-admin-mcp-fix-sdk-location-permission-9958a75.mintlify.app/" target="_blank" rel="noopener" class="ext">Documentación</a>
+    </nav>
+  </div>
+  <div class="container footer__legal">© <span id="year">2026</span> chmod. Todos los derechos reservados.</div>
+</footer>
+
+<script src="i18n.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
